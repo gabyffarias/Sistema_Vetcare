@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from src.auth.presentation.auth_routes import router as auth_router
 from src.cadastros.presentation.cadastros_routes import router as cadastros_router
+from src.pests.presentation.pets_routes import router as pets_router
 
 
 app= FastAPI(
@@ -11,6 +12,7 @@ app= FastAPI(
 
 app.include_router(auth_router, prefix= "/auth", tags=["Autenticação"])
 app.include_router(cadastros_router, prefix= "/cadastros", tags= ["Cadastros"])
+app.include_router(pets_router)
 
 @app.get("/")
 def read_root():
