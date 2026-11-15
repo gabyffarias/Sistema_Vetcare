@@ -22,4 +22,7 @@ class PetService:
             "idade": idade,
             "tutor_id": tutor_id
         }
+        return self.pet_repo.salvar(pet_data)
+
+    def listar_pets(self):
         return self.pet_repo.listar_todos()
