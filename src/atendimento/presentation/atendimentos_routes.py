@@ -17,6 +17,7 @@ class AtendimentoCreateRequest(BaseModel):
     valor: int = Field(..., gt= 0,secription= "Valor do atendimento em reais (deve ser maior que 0.)")
 
 @router.post("", status_code=status.HTTP_201_CREATED)
+
 def criar_atendimento(dados: AtendimentoCreateRequest):
 
     return atendimento_service.registrar_atendimento(
@@ -28,5 +29,23 @@ def criar_atendimento(dados: AtendimentoCreateRequest):
     )
 
 @router.get("", status_code=status.HTTP_200_OK)
+
 def listar_atendimento():
     return atendimento_service.listar_atendimentos()
+
+@router.put("/{atendimento_id}", status_code=status.HTTP_200_OK)
+
+def atualizar_atendimento(atendimento_id: int, dados: AtendimentoCreateRequest):
+    return atendimento_service.atualizar_atendimento(
+        atendimento_id=atendimento_id,
+        pet_id=dados.pet_id,
+        data_consulta=dados.data_consulta,
+        motivo=dados.motivo,
+        diagnostico=dados.diagnostico,
+        valor=dados.valor
+    )
+
+@router.delete("/{atendimento_id}", status_code=status.HTTP_200_OK)
+
+def deletar_atendimento(atendimento_id: int):
+    return atendimento_service.deletar_atendimento(atendimento_id)

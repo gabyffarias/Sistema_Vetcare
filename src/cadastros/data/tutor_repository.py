@@ -23,3 +23,29 @@ class TutorRepository:
                 return tutor
 
         return None
+
+    def buscar_por_id(self, tutor_id: int) -> dict | None:
+        
+        for tutor in self._tutores:
+            if tutor["id"] == tutor_id:
+                return tutor
+            
+        return None
+
+    def atualizar(self, tutor_id: int, dados_atualizados: dict) -> dict | None:
+        
+        tutor = self.buscar_por_id(tutor_id)
+        if tutor:
+            tutor.update(dados_atualizados)
+            return tutor
+        
+        return None
+
+    def deletar(self, tutor_id: int) -> bool:
+        
+        tutor = self.buscar_por_id(tutor_id)
+        if tutor:
+            self._tutores.remove(tutor)
+            return True
+        
+        return False

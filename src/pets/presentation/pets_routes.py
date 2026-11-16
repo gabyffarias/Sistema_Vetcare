@@ -28,5 +28,22 @@ def criar_pet(dados: PetCreateRequest):
     )
 
 @router.get("", status_code=status.HTTP_200_OK)
+
 def listar_pests():
     return pet_service.listar_pets()
+
+@router.put("/{pet_id}", status_code=status.HTTP_200_OK)
+
+def atualizar_pet(pet_id: int, dados: PetCreateRequest):
+    return pet_service.atualizar_pet(
+        pet_id=pet_id,
+        tutor_id=dados.tutor_id,
+        nome=dados.nome,
+        especie=dados.especie,
+        raca=dados.raca
+    )
+
+@router.delete("/{pet_id}", status_code=status.HTTP_200_OK)
+
+def deletar_pet(pet_id: int):
+    return pet_service.deletar_pet(pet_id)

@@ -1,4 +1,5 @@
 from src.cadastros.data.tutor_repository import TutorRepository
+from fastapi import HTTPException
 
 class TutorService:
 
@@ -21,3 +22,20 @@ class TutorService:
     
     def listar_tutores(self) -> list:
         return self.repository.listar_todos()
+
+    def atualizar_tutor(self, tutor_id: int, nome: str, telefone: str, email: str):
+        dados = {
+            "nome": nome,
+            "telefone": telefone,
+            "email": email
+        }
+        tutor_atualizado = self.repository.atualizar(tutor_id, dados)
+        if not tutor_atualizado:
+            raise HTTPException(status_code=404, detail="Tutor não encontrado para atualização.")
+        return tutor_atualizado
+
+    def deletar_tutor(self, tutor_id: int):
+        sucesso = self.repository.deletar(tutor_id)
+        if not sucesso:
+            raise HTTPException(status_code=404, detail="Tutor não encontrado para exclusão.")
+        return {"mensagem": "Tutor removido com sucesso."}

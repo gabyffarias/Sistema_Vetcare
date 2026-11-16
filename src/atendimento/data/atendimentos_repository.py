@@ -20,3 +20,29 @@ class AtendimentoRepository:
 
     def listar_todos(self) -> list:
         return self.atendimento
+
+    def buscar_por_id(self, atendimento_id: int) -> dict | None:
+        
+        for atendimento in self.atendimento:
+            if atendimento["id"] == atendimento_id:
+                return atendimento
+        
+        return None
+
+    def atualizar(self, atendimento_id: int, dados_atualizados: dict) -> dict | None:
+        
+        atendimento = self.buscar_por_id(atendimento_id)
+        if atendimento:
+            atendimento.update(dados_atualizados)
+            return atendimento
+        
+        return None
+
+    def deletar(self, atendimento_id: int) -> bool:
+        
+        atendimento = self.buscar_por_id(atendimento_id)
+        if atendimento:
+            self.atendimento.remove(atendimento)
+            return True
+        
+        return False

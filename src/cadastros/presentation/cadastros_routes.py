@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field, EmailStr, field_validator
 import re
 from src.cadastros.data.tutor_repository import TutorRepository
@@ -28,6 +28,7 @@ class TutorCreateRequest(BaseModel):
         return apenas_numeros
 
 @router.post("/tutores", status_code=201)
+
 def criar_tutor(dados: TutorCreateRequest):
 
     try:
@@ -42,5 +43,21 @@ def criar_tutor(dados: TutorCreateRequest):
         raise HTTPException(status_code=400, detail= str(e))
 
 @router.get("/tutores")
+
 def listar_tutores():
     return tutor_service.listar_tutores()
+
+@router.put("/{tutor_id}", status_code=status.HTTP_200_OK)
+
+def atualizar_tutor(tutor_id: int, dados: TutorCreateRequest):
+    return tutor_service.atualizar_tutor(
+        tutor_id=tutor_id,
+        nome=dados.nome,
+        telefone=dados.telefone,
+        email=dados.email
+    )
+
+@router.delete("/{tutor_id}", status_code=status.HTTP_200_OK)
+
+def deletar_tutor(tutor_id: int):
+    return tutor_service.deletar_tutor(tutor_id)
